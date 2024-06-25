@@ -1,49 +1,62 @@
 outcome = ["rock", "paper", "scissors"]
 
+// Get computer's choice
 function getComputerChoice() {
     computerChoice  = outcome[Math.floor(Math.random() * outcome.length)]
     return computerChoice
 }
 
+// Get player's choice
 function getHumanChoice() {
     humanChoice = prompt("Enter rock or paper or scissors.")
     return humanChoice.toLowerCase()
 }
 
-const computerSelection = getComputerChoice()
-const humanSelection = getHumanChoice()
 
-humanScore = 0;
-computerScore = 0;
+
+// Play single round
 
 function playRound(humanChoice, computerChoice) {
-        if (humanChoice === "rock" && computerChoice === "rock") {
-            alert("It's a draw!")
-        } else if (humanChoice === "paper" && computerChoice === "paper") {
-            alert("It's a draw!")
-        } else if (humanChoice === "scissors" && computerChoice === "scissors") {
-            alert("It's a draw!")
-        } else if (humanChoice === "rock" && computerChoice === "paper") {
-            alert("You lose this round!")
-            computerScore = computerScore + 1
-        } else if (humanChoice === "paper" && computerChoice === "scissors") {
-            alert("You lose this round!")
-            computerScore = computerScore + 1
-        } else if (humanChoice === "scissors" && computerChoice === "rock") {
-            alert("You lose this round!")
-            computerScore = computerScore + 1
-        } else if (humanChoice === "rock" && computerChoice === "scissors") {
-            alert("You win!")
-            humanScore = humanScore + 1
-        } else if (humanChoice === "paper" && computerChoice === "rock") {
-            alert("You win!")
-            humanScore = humanScore + 1
-        } else if (humanChoice === "scissors" && computerChoice === "paper") {
-            alert("You win!")
-            humanScore = humanScore + 1
+    if (humanChoice === computerChoice) {
+      return "It's a draw!";
+    } else if (
+      (humanChoice === "rock" && computerChoice === "scissors") ||
+      (humanChoice === "paper" && computerChoice === "rock") ||
+      (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+      return "You win!";
+    } else {
+      return "You lose!";
+    }
+  }
+
+// Play 5 rounds
+function playGame() {
+    let humanScore = 0;
+    let computerScore = 0;
+
+    for (let i = 0; i < 5; i++) {
+        const humanChoice = getHumanChoice();
+        const computerChoice = getComputerChoice();
+        const result = playRound(humanChoice, computerChoice);
+    
+        console.log(`Round ${i + 1}: You chose ${humanChoice}, the computer chose ${computerChoice}. ${result}`);
+        if (result === "You win!") {
+            humanScore++;
+        } else if (result === "You lose!") {
+            computerScore++;
         }
     }
+    if (humanScore > computerScore) {
+        console.log(`You win the game! Your score: ${humanScore}, Computer's score: ${computerScore}.`)
+    } else if (humanScore < computerScore) {
+        console.log(`You lose the game.. Your score: ${humanScore}, Computer's score: ${computerScore}.`)
+    } else {
+        console.log(`It's a draw! Your score: ${humanScore}, Computer's score: ${computerScore}.`)
+    } 
+}
 
-playRound(humanSelection, computerSelection)
-console.log(humanScore)
-console.log(computerScore)
+
+
+// Run game
+playGame();
